@@ -20,6 +20,6 @@ input LogInInput {
 
   type Mutation {
     logIn(input: LogInInput): Viewer!
-    logOut: String!
+    logOut: Viewer!
   }
 `;
