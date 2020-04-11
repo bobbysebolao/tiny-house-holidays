@@ -1,5 +1,13 @@
 import { Collection, ObjectId } from "mongodb";
 
+export interface Viewer {
+  _id?: string;
+  token?: string;
+  avatar?: string;
+  walletId?: string;
+  didRequest: boolean;
+}
+
 // enum is a special Typescript type that lets you limit the values that a collection property can have to ones that you define.
 export enum ListingType {
   Apartment = "APARTMENT",

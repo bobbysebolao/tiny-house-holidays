@@ -20,7 +20,7 @@ export const Google = {
 
         auth.setCredentials(tokens);
 
-        await google.people({ version: "v1", auth}).people.get({
+        const { data } = await google.people({ version: "v1", auth}).people.get({
             resourceName: "people/me",
             personFields: "emailAddresses,names,photos"
         })
