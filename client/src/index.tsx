@@ -3,8 +3,8 @@ import { render } from "react-dom";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import ApolloClient from "apollo-boost";
 import { ApolloProvider } from "@apollo/react-hooks";
-import { Layout } from "antd";
-import { Home, Host, Listing, Listings, Login, NotFound, User } from "./sections";
+import { Affix, Layout } from "antd";
+import { AppHeader, Home, Host, Listing, Listings, Login, NotFound, User } from "./sections";
 import { Viewer } from "./lib/types";
 import * as serviceWorker from "./serviceWorker";
 import "./styles/index.css";
@@ -27,6 +27,9 @@ const App = () => {
   return (
     <Router>
       <Layout id="app">
+        <Affix offsetTop={0} className="app__affix-header">
+          <AppHeader viewer={viewer}/>
+        </Affix>
         <Switch>
           <Route exact path="/" component={Home}/>
           <Route exact path="/host" component={Host}/>
