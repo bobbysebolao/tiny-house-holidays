@@ -19,6 +19,7 @@ export const userResolvers: IResolvers = {
                 }
 
                 const viewer = await authorise(db, req);
+                
                 if (viewer && viewer._id === user._id) {
                     user.authorised = true;
                 }

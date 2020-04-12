@@ -18,7 +18,7 @@ const client = new ApolloClient({
     const token = sessionStorage.getItem("token");
     operation.setContext({
       headers: {
-        "X-CSRF_TOKEN": token || ""
+        "X-CSRF-TOKEN": token || ""
       }
     });
   }
