@@ -16,6 +16,7 @@
   "dependencies": {
     "apollo-server-express": "^2.10.0",
     "body-parser": "^1.19.0",
+    "cookie-parser": "^1.4.5",
     "express": "^4.17.1",
     "googleapis": "^48.0.0",
     "graphql": "^14.6.0",
@@ -23,6 +24,7 @@
   },
   "devDependencies": {
     "@types/body-parser": "^1.17.1",
+    "@types/cookie-parser": "^1.4.2",
     "@types/dotenv": "^8.2.0",
     "@types/express": "^4.17.2",
     "@types/graphql": "^14.5.0",
