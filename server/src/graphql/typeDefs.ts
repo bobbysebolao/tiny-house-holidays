@@ -16,6 +16,7 @@ input LogInInput {
 
   type Query {
     authUrl: String!
+    user: String!
   }
 
   type Mutation {
