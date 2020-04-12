@@ -52,6 +52,7 @@ export interface Listing {
   bookingsIndex: BookingsIndex;
   price: number;
   numOfGuests: number;
+  authorised?: boolean;
 }
 
 // There is a one to many relationship between the User collection and the Bookings and Listings collections. In the User interface definition, the 'bookings' and 'listing' fields take an array of values.
