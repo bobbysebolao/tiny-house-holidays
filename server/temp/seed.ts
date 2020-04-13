@@ -582,14 +582,14 @@ const listings: Listing[] = [
   },
   {
     _id: new ObjectId("5d378db94e84753160e08b50"),
-    title: "Single bedroom located in the heart of downtown San Fransisco",
+    title: "Single bedroom located in the heart of downtown San Francisco",
     description:
       "Furnished and spacious single bedroom location situated minutes away from the nearest Muni train stop. Perfect for the independent traveller.",
     image:
       "https://res.cloudinary.com/tiny-house/image/upload/v1560646219/mock/San%20Fransisco/san-fransisco-listing-1_qzntl4.jpg",
     host: "5d378db94e84753160e08b56",
     type: ListingType.Apartment,
-    address: "200 Sunnyside Rd, San Fransisco, California",
+    address: "200 Sunnyside Rd, San Francisco, California",
     country: "United States",
     admin: "California",
     city: "San Francisco",
@@ -600,14 +600,14 @@ const listings: Listing[] = [
   },
   {
     _id: new ObjectId("5d378db94e84753160e08b51"),
-    title: "Downtown and modern San Fransisco studio apartment",
+    title: "Downtown and modern San Francisco studio apartment",
     description:
-      "Downtown, modern, fully furnished, and sleek San Fransisco studio apartment.",
+      "Downtown, modern, fully furnished, and sleek San Francisco studio apartment.",
     image:
       "https://res.cloudinary.com/tiny-house/image/upload/v1560646219/mock/San%20Fransisco/san-fransisco-listing-2_tvjygz.jpg",
     host: "5d378db94e84753160e08b56",
     type: ListingType.Apartment,
-    address: "102 Parkdale Av, San Fransisco, California",
+    address: "102 Parkdale Av, San Francisco, California",
     country: "United States",
     admin: "California",
     city: "San Francisco",
@@ -620,12 +620,12 @@ const listings: Listing[] = [
     _id: new ObjectId("5d378db94e84753160e08b52"),
     title: "Modern apartment steps away from the beach",
     description:
-      "Beautiful modern apartment located a few minutes away from the beach. The perfect location for a relaxing and comfortable vacation in San Fransisco!",
+      "Beautiful modern apartment located a few minutes away from the beach. The perfect location for a relaxing and comfortable vacation in San Francisco!",
     image:
       "https://res.cloudinary.com/tiny-house/image/upload/v1560646219/mock/San%20Fransisco/san-fransisco-listing-3_z7w2jh.jpg",
     host: "5d378db94e84753160e08b59",
     type: ListingType.Apartment,
-    address: "2 Bridgewater Rd, San Fransisco, California",
+    address: "2 Bridgewater Rd, San Francisco, California",
     country: "United States",
     admin: "California",
     city: "San Francisco",
