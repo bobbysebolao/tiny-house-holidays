@@ -81,7 +81,7 @@ const App = () => {
           <Route exact path="/listings/:location?" component={Listings}/>
           <Route exact path="/login" render={props => <Login {...props} setViewer={setViewer}/>}/>
           <Route exact path="/stripe" render={props => <Stripe {...props} viewer={viewer} setViewer={setViewer}/>}/>
-          <Route exact path="/user/:id" render={props => <User {...props} viewer={viewer}/>}/>
+          <Route exact path="/user/:id" render={props => <User {...props} viewer={viewer} setViewer={setViewer}/>}/>
           <Route exact component={NotFound}/>
         </Switch>
       </Layout>
