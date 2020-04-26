@@ -1,9 +1,13 @@
-import React, { useState } from 'react';
-import { Link } from "react-router-dom";
+import React, { useState, FormEvent } from 'react';
+import { Link, Redirect } from "react-router-dom";
+import { useMutation } from '@apollo/react-hooks';
 import { Button, Form, Icon, Input, InputNumber, Layout, Radio, Upload, Typography } from "antd";
+import { FormComponentProps } from "antd/lib/form";
 import { UploadChangeParam } from "antd/lib/upload";
+import { HOST_LISTINGS } from "../../lib/graphql/mutations";
+import { HostListing as HostListingData, HostListingVariables } from "../../lib/graphql/mutations/HostListing/__generated__/HostListing";
 import { ListingType } from "../../lib/graphql/globalTypes";
-import { iconColor, displayErrorMessage } from "../../lib/utils";
+import { iconColor, displaySuccessNotification, displayErrorMessage } from "../../lib/utils";
 import { Viewer } from "../../lib/types";
 
 const { Content } = Layout;
@@ -14,9 +18,19 @@ interface Props {
     viewer: Viewer;
 }
 
-export const Host = ({ viewer }: Props) => {
+export const Host = ({ viewer, form }: Props & FormComponentProps) => {
     const [imageLoading, setImageLoading] = useState(false);
     const [imageBase64Value, setimageBase64Value] = useState<string | null>(null);
+
+    const [hostListing, { loading, data}] = useMutation<HostListingData, HostListingVariables>(HOST_LISTINGS, {
+        onCompleted: () => {
+            displaySuccessNotification("You've successfully created your listing!")
+        },
+        onError: () => {
+            displayErrorMessage("Sorry! We weren't able to create your listing. Please try again later.")
+        }
+    });
+
     const handleImageUpload = (info: UploadChangeParam) => {
         const { file } = info;
 
@@ -36,6 +50,35 @@ export const Host = ({ viewer }: Props) => {
         }
     }
 
+    const handleHostListing = (evt: FormEvent) => {
+        evt.preventDefault();
+
+        form.validateFields((err, values) => {
+            if (err) {
+                displayErrorMessage("Please complete all required form fields!");
+                return;
+            }
+
+            const fullAddress = `${values.address}, ${values.city}, ${values.state}, ${values.postalCode}`;
+
+            const input = {
+                ...values,
+                address: fullAddress,
+                image: imageBase64Value,
+                price: values.price * 100
+            };
+            delete input.city;
+            delete input.state;
+            delete input.postalCode;
+
+            hostListing({
+                variables: {
+                    input
+                }
+            });
+        });
+    };
+
     if (!viewer.id || !viewer.hasWallet) {
         return (
             <Content className="host-content">
@@ -51,9 +94,32 @@ export const Host = ({ viewer }: Props) => {
         );
     }
 
+    if (loading) {
+        return (
+            <Content className="host-content">
+                <div className="host__form-header">
+            <Title level={3} className="host__form-title">
+                Please wait!
+            </Title>
+            <Text type="secondary">
+                We're creating your listing now.
+            </Text>
+            </div>
+            </Content>
+        );
+    }
+
+    if (data && data.hostListing) {
+        return (
+            <Redirect to={`/listing/${data.hostListing.id}`} />
+        )
+    }
+
+    const { getFieldDecorator } = form;
+
     return (
         <Content className="host-content">
-            <Form layout="vertical">
+            <Form layout="vertical" onSubmit={handleHostListing}>
             <div className="host__form-header">
                 <Title level={3} className="host__form-title">
                     Hi! Let's get started listing your place.
@@ -64,7 +130,15 @@ export const Host = ({ viewer }: Props) => {
             </div>
 
             <Item label="Home Type">
-            <Radio.Group>
+                {getFieldDecorator("type", {
+                    rules: [
+                        {
+                            required: true,
+                            message: "Please select a home type!"
+                        }
+                    ]
+                })(
+                        <Radio.Group>
                 <Radio.Button value={ListingType.APARTMENT}>
                     <Icon type="bank" style={{ color: iconColor }}/> <span>Apartment</span>
                 </Radio.Button>
@@ -72,35 +146,96 @@ export const Host = ({ viewer }: Props) => {
                     <Icon type="home" style={{ color: iconColor }}/> <span>House</span>
                 </Radio.Button>
             </Radio.Group>
+            )}
+            </Item>
+
+            <Item label="Max # of Guests">
+            {getFieldDecorator("numOfGuests", {
+                    rules: [
+                        {
+                            required: true,
+                            message: "Please enter a max number of guests!"
+                        }
+                    ]
+                })(<InputNumber min={1} placeholder="4" />)}
             </Item>
 
             <Item label="Title" extra="Max character count of 45">
-            <Input maxLength={45} placeholder="The iconic and luxurious Bel-Air mansion"/>
+            {getFieldDecorator("title", {
+                    rules: [
+                        {
+                            required: true,
+                            message: "Please enter a title for your listing!"
+                        }
+                    ]
+                })(<Input maxLength={45} placeholder="The iconic and luxurious Bel-Air mansion"/>)}
             </Item>
 
             <Item label="Description of listing" extra="Max character count of 400">
-            <Input.TextArea rows={3} maxLength={400} placeholder="Modern, clean, and iconic home of the Fresh Prince. Situated in the heart of Bel-Air Los Angeles." />
+            {getFieldDecorator("description", {
+                    rules: [
+                        {
+                            required: true,
+                            message: "Please enter a description for your listing!"
+                        }
+                    ]
+                })(<Input.TextArea rows={3} maxLength={400} placeholder="Modern, clean, and iconic home of the Fresh Prince. Situated in the heart of Bel-Air Los Angeles." />)}
             </Item>
 
             <Item label="Address">
-            <Input placeholder="251 North Bristol Avenue"/>
+            {getFieldDecorator("address", {
+                    rules: [
+                        {
+                            required: true,
+                            message: "Please enter an address for your listing!"
+                        }
+                    ]
+                })(<Input placeholder="251 North Bristol Avenue"/>)}
             </Item>
 
             <Item label="City/Town">
-            <Input placeholder="Los Angeles"/>
+            {getFieldDecorator("city", {
+                    rules: [
+                        {
+                            required: true,
+                            message: "Please enter a city (or region) for your listing!"
+                        }
+                    ]
+                })(<Input placeholder="Los Angeles"/>)}
             </Item>
 
             <Item label="State/Province">
-            <Input placeholder="California"/>
+            {getFieldDecorator("state", {
+                    rules: [
+                        {
+                            required: true,
+                            message: "Please enter a state (or province) for your listing!"
+                        }
+                    ]
+                })(<Input placeholder="California"/>)}
             </Item>
 
             <Item label="Zip/Postal Code">
-            <Input placeholder="Please enter a zip code for your listing"/>
+            {getFieldDecorator("postalCode", {
+                    rules: [
+                        {
+                            required: true,
+                            message: "Please enter a zip (or postal) code for your listing!"
+                        }
+                    ]
+                })(<Input placeholder="Please enter a zip code for your listing"/>)}
             </Item>
 
             <Item label="Image" extra="Images have to be under 1MB in size and of type JPG or PNG">
             <div className="host__form-image-upload">
-                <Upload
+            {getFieldDecorator("image", {
+                    rules: [
+                        {
+                            required: true,
+                            message: "Please enter an image for your listing!"
+                        }
+                    ]
+                })(<Upload
                 name="image"
                 listType="picture-card"
                 showUploadList={false}
@@ -116,16 +251,23 @@ export const Host = ({ viewer }: Props) => {
                             <div className="ant-upload-text">Upload</div>
                         </div>
                     )}
-                </Upload>
+                </Upload>)}
             </div>
             </Item>
 
             <Item label="Price" extra="All prices in $USD/day">
-            <InputNumber min={0} placeholder="120"/>
+            {getFieldDecorator("price", {
+                    rules: [
+                        {
+                            required: true,
+                            message: "Please enter a price for your listing!"
+                        }
+                    ]
+                })(<InputNumber min={0} placeholder="120"/>)}
             </Item>
 
             <Item>
-            <Button type="primary">Submit</Button>
+            <Button type="primary" htmlType="submit">Submit</Button>
             </Item>
 
             </Form>
@@ -159,5 +301,9 @@ const getBase64Value = (
     reader.onload = () => {
         callback(reader.result as string);
     }
-}
+};
+
+export const WrappedHost = Form.create<Props & FormComponentProps>({
+    name: "host_form"
+})(Host);
 

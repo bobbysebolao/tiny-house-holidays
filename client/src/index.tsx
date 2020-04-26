@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import ApolloClient from "apollo-boost";
 import { ApolloProvider, useMutation } from "@apollo/react-hooks";
 import { Affix, Spin, Layout } from "antd";
-import { AppHeader, Home, Host, Listing, Listings, Login, NotFound, Stripe, User } from "./sections";
+import { AppHeader, Home, WrappedHost as Host, Listing, Listings, Login, NotFound, Stripe, User } from "./sections";
 import { AppHeaderSkeleton, ErrorBanner } from "./lib/components";
 import { LOG_IN } from "./lib/graphql/mutations";
 import { LogIn as LogInData, LogInVariables } from "./lib/graphql/mutations/LogIn/__generated__/LogIn";
