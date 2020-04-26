@@ -3,7 +3,7 @@ import { Request, Response } from "express";
 import { IResolvers } from 'apollo-server-express';
 import { Google, Stripe } from "../../../lib/api";
 import { Viewer, Database, User } from "../../../lib/types";
-import { authorize } from "../../../lib/utils";
+import { authorise } from "../../../lib/utils";
 import { LogInArgs, ConnectStripeArgs } from "./types";
 
 const cookieOptions = {
@@ -140,7 +140,7 @@ export const viewerResolvers: IResolvers = {
             try {
                 const { code } = input;
 
-                let viewer = await authorize(db, req);
+                let viewer = await authorise(db, req);
                 if (!viewer) {
                     throw new Error("viewer cannot be found");
                 }
@@ -175,7 +175,7 @@ export const viewerResolvers: IResolvers = {
         },
         disconnectStripe: async (_root: undefined, _args: {}, { db, req }: { db: Database; req: Request }): Promise<Viewer> => {
             try {
-                let viewer = await authorize(db, req);
+                let viewer = await authorise(db, req);
                 if (!viewer) {
                     throw new Error("viewer cannot be found");
                 }
