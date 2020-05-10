@@ -8,7 +8,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon src/index.ts",
+    "start": "NODE_ENV=prod nodemon src/index.ts",
+    "local": "NODE_ENV=local nodemon src/index.ts",
     "build": "tsc -p ./ && mkdir -p ../tinyhouse-deploy/src && cp -R build/. ../tinyhouse-deploy/src",
     "seed": "ts-node temp/seed.ts",
     "clear": "ts-node temp/clear.ts"

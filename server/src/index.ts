@@ -1,4 +1,4 @@
-// require("dotenv").config();
+require("dotenv").config();
 
 // article that explains how to configure the VS Code
 //eslint plugin to lint .ts files:
@@ -19,8 +19,10 @@ const mount = async (app: Application) => {
   app.use(cookieParser(process.env.SECRET));
   app.use(compression());
 
-  app.use(express.static(`${__dirname}/client`));
-  app.get("/*", (_req, res) => res.sendFile(`${__dirname}/client/index.html`));
+  if (process.env.NODE_ENV === "prod") {
+    app.use(express.static(`${__dirname}/client`));
+    app.get("/*", (_req, res) => res.sendFile(`${__dirname}/client/index.html`));
+  }
 
   const server = new ApolloServer({
     typeDefs,
