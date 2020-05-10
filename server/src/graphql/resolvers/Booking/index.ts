@@ -6,7 +6,7 @@ import { Database, Listing, Booking, BookingsIndex } from "../../../lib/types";
 import { authorise } from "../../../lib/utils";
 import { CreateBookingArgs } from "./types";
 
-const resolveBookingsIndex = (bookingsIndex: BookingsIndex, checkInDate: string, checkoutDate: string): BookingsIndex => {
+const resolveBookingsIndex = (bookingsIndex: BookingsIndex, checkInDate: string, checkOutDate: string): BookingsIndex => {
     let dateCursor = new Date(checkInDate);
     let checkOut = new Date(checkOutDate);
     const newBookingsIndex: BookingsIndex = { ...bookingsIndex };
