@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link, withRouter, RouteComponentProps } from "react-router-dom";
+import { Link, withRouter, useHistory, useLocation } from "react-router-dom";
 import { Input, Layout } from "antd";
 import { displayErrorMessage } from "../../lib/utils";
 import { Viewer }from "../../lib/types";
@@ -15,8 +15,11 @@ interface Props {
 const { Header } = Layout;
 const { Search } = Input;
 
-export const AppHeader = withRouter(({ viewer, setViewer, location, history }: Props & RouteComponentProps) => {
+export const AppHeader = ({ viewer, setViewer }: Props) => {
     const [search, setSearch] = useState("");
+
+    const history = useHistory();
+    const location = useLocation();
 
     useEffect(() => {
         const { pathname } = location;
@@ -65,4 +68,4 @@ export const AppHeader = withRouter(({ viewer, setViewer, location, history }: P
             </div>
         </Header>
     )
-});
+};

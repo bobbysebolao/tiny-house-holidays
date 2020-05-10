@@ -28,7 +28,7 @@ export const Home = ({ history }: RouteComponentProps) => {
         },
         fetchPolicy: "cache-and-network"
     });
-
+    
     useScrollToTop();
     
     const onSearch = (value: string) => {
