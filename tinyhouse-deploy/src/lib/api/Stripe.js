@@ -25,6 +25,15 @@ exports.Stripe = {
         });
         return response;
     }),
+    disconnect: (stripeUserId) => __awaiter(void 0, void 0, void 0, function* () {
+        const response = yield client.oauth.deauthorize({
+            /* eslint-disable @typescript-eslint/camelcase */
+            client_id: `${process.env.S_CLIENT_ID}`,
+            stripe_user_id: stripeUserId
+            /* eslint-enable @typescript-eslint/camelcase */
+        });
+        return response;
+    }),
     charge: (amount, source, stripeAccount) => __awaiter(void 0, void 0, void 0, function* () {
         /* eslint-disable @typescript-eslint/camelcase */
         const res = yield client.charges.create({

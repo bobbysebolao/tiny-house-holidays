@@ -146,10 +146,14 @@ exports.viewerResolvers = {
         disconnectStripe: (_root, _args, { db, req }) => __awaiter(void 0, void 0, void 0, function* () {
             try {
                 let viewer = yield utils_1.authorise(db, req);
-                if (!viewer) {
-                    throw new Error("viewer cannot be found");
+                if (!viewer || !viewer.walletId) {
+                    throw new Error("viewer cannot be found or has not connected with Stripe");
                 }
-                const updateRes = yield db.users.findOneAndUpdate({ _id: viewer._id }, { $unset: { walletId: "" } }, { returnOriginal: false });
+                const wallet = yield api_1.Stripe.disconnect(viewer.walletId);
+                if (!wallet) {
+                    throw new Error("stripe disconnect error");
+                }
+                const updateRes = yield db.users.findOneAndUpdate({ _id: viewer._id }, { $set: { walletId: "" } }, { returnOriginal: false });
                 if (!updateRes.value) {
                     throw new Error("viewer could not be updated");
                 }

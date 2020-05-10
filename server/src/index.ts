@@ -1,4 +1,6 @@
-require("dotenv").config();
+if (process.env.NODE_ENV === "local") {
+  require("dotenv").config();
+}
 
 // article that explains how to configure the VS Code
 //eslint plugin to lint .ts files:
