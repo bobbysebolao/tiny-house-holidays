@@ -85,6 +85,13 @@ input HostListingInput {
   numOfGuests: Int!
 }
 
+input CreateBookingInput {
+  id: ID!
+  source: String!
+  checkIn: String!
+  checkOut: String!
+}
+
   type Query {
     authUrl: String!
     user(id: ID!): User!
@@ -103,5 +110,6 @@ input HostListingInput {
     connectStripe(input: ConnectStripeInput!): Viewer!
     disconnectStripe: Viewer!
     hostListing(input: HostListingInput!): Listing!
+    createBooking(input: CreateBookingInput!): Booking!
   }
 `;
