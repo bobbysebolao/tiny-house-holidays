@@ -6,7 +6,7 @@
         "node": "11.9.0"
     },
     "scripts": {
-        "start": "node tinyhouse-deploy/src/index.js"
+        "start": "NODE_ENV=production node tinyhouse-deploy/src/index.js"
     },
     "dependencies": {
         "@google/maps": "^1.1.0",

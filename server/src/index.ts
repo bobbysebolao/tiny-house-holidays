@@ -19,9 +19,14 @@ const mount = async (app: Application) => {
   app.use(cookieParser(process.env.SECRET));
   app.use(compression());
 
-  if (process.env.NODE_ENV === "prod") {
+  if (process.env.NODE_ENV === "production") {
     app.use(express.static(`${__dirname}/client`));
     app.get("/*", (_req, res) => res.sendFile(`${__dirname}/client/index.html`));
+  }
+
+  if (process.env.NODE_ENV === "local") {
+    app.use(express.static(`${__dirname}/../client`));
+    app.get("/*", (_req, res) => res.sendFile(`${__dirname}/../client/index.html`));
   }
 
   const server = new ApolloServer({
