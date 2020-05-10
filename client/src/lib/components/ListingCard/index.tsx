@@ -20,7 +20,7 @@ export const ListingCard = ({ listing }: Props) => {
     const { id, title, image, address, price, numOfGuests } = listing;
 
     return (
-        <Link to={`/listing${id}`}>
+        <Link to={`/listing/${id}`}>
         <Card hoverable cover={<div style={{ backgroundImage: `url(${image})`}} className="listing-card__cover-img"/>} >
             <div className="listing-card__details">
                 <div className="listing-card__description">
