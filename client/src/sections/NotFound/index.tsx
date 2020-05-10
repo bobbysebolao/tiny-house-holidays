@@ -1,11 +1,13 @@
 import React, { Fragment } from 'react';
 import { Link } from "react-router-dom";
 import { Empty, Layout, Typography } from "antd";
+import { useScrollToTop } from '../../lib/hooks';
 
 const { Content } = Layout;
 const { Text } = Typography;
 
 export const NotFound = () => {
+    useScrollToTop();
     return (<Content className="not-found">
         <Empty description={
             <Fragment>

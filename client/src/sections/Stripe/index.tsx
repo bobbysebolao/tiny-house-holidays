@@ -4,6 +4,7 @@ import { useMutation } from "@apollo/react-hooks";
 import { Layout, Spin } from "antd";
 import { CONNECT_STRIPE } from "../../lib/graphql/mutations";
 import { ConnectStripe as ConnectStripeData, ConnectStripeVariables } from "../../lib/graphql/mutations/ConnectStripe/__generated__/ConnectStripe";
+import { useScrollToTop } from "../../lib/hooks";
 import { displaySuccessNotification, displayErrorMessage } from "../../lib/utils";
 import { Viewer } from "../../lib/types";
 
@@ -25,6 +26,8 @@ export const Stripe = ({ viewer, setViewer, history }: Props & RouteComponentPro
     });
 
     const connectStripeRef = useRef(connectStripe);
+
+    useScrollToTop();
 
     useEffect(() => {
         const code = new URL(window.location.href).searchParams.get("code");

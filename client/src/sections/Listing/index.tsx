@@ -6,6 +6,7 @@ import { Moment } from "moment";
 import { ErrorBanner, PageSkeleton } from "../../lib/components";
 import { LISTING } from "../../lib/graphql/queries";
 import { Listing as ListingData, ListingVariables } from "../../lib/graphql/queries/Listing/__generated__/Listing";
+import { useScrollToTop } from "../../lib/hooks";
 import { Viewer } from "../../lib/types";
 import { ListingCreateBooking, WrappedListingCreateBookingModal as ListingCreateBookingModal, ListingBookings, ListingDetails } from "./components";
 
@@ -32,6 +33,8 @@ export const Listing = ({ viewer, match }: Props & RouteComponentProps<MatchPara
             limit: PAGE_LIMIT
         }
     });
+
+    useScrollToTop();
 
     const clearBookingData = () => {
         setModalVisible(false);

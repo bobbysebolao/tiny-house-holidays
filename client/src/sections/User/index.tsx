@@ -5,6 +5,7 @@ import { Col, Layout, Row } from "antd";
 import { USER } from "../../lib/graphql/queries";
 import { User as UserData, UserVariables } from "../../lib/graphql/queries/User/__generated__/User";
 import { ErrorBanner, PageSkeleton } from "../../lib/components";
+import { useScrollToTop } from "../../lib/hooks";
 import { Viewer } from "../../lib/types";
 import { UserBookings, UserListings, UserProfile } from "./components";
 
@@ -32,6 +33,8 @@ export const User = ({ viewer, setViewer, match }: Props & RouteComponentProps<M
         },
         fetchPolicy: "cache-and-network"
     });
+
+    useScrollToTop();
 
     const handleUserRefetch = async () => {
         await refetch();

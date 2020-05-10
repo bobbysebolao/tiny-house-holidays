@@ -7,6 +7,7 @@ import { UploadChangeParam } from "antd/lib/upload";
 import { HOST_LISTINGS } from "../../lib/graphql/mutations";
 import { HostListing as HostListingData, HostListingVariables } from "../../lib/graphql/mutations/HostListing/__generated__/HostListing";
 import { ListingType } from "../../lib/graphql/globalTypes";
+import { useScrollToTop } from "../../lib/hooks";
 import { iconColor, displaySuccessNotification, displayErrorMessage } from "../../lib/utils";
 import { Viewer } from "../../lib/types";
 
@@ -30,6 +31,8 @@ export const Host = ({ viewer, form }: Props & FormComponentProps) => {
             displayErrorMessage("Sorry! We weren't able to create your listing. Please try again later.")
         }
     });
+
+    useScrollToTop();
 
     const handleImageUpload = (info: UploadChangeParam) => {
         const { file } = info;

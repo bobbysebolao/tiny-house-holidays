@@ -6,6 +6,7 @@ import { ErrorBanner, ListingCard } from "../../lib/components";
 import { LISTINGS } from "../../lib/graphql/queries";
 import { Listings as ListingsData, ListingsVariables } from "../../lib/graphql/queries/Listings/__generated__/Listings";
 import { ListingsFilter } from "../../lib/graphql/globalTypes";
+import { useScrollToTop } from "../../lib/hooks";
 import { ListingsFilters, ListingsPagination, ListingsSkeleton } from "./components";
 
 interface MatchParams {
@@ -30,6 +31,8 @@ export const Listings = ({ match }: RouteComponentProps<MatchParams>) => {
             page
         }
     });
+
+    useScrollToTop();
 
     useEffect(() => {
         setPage(1);

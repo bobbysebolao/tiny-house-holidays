@@ -5,6 +5,7 @@ import { Col, Row, Layout, Typography } from "antd";
 import { LISTINGS } from "../../lib/graphql/queries";
 import { Listings as ListingsData, ListingsVariables } from "../../lib/graphql/queries/Listings/__generated__/Listings";
 import { ListingsFilter } from "../../lib/graphql/globalTypes";
+import { useScrollToTop } from "../../lib/hooks";
 import { displayErrorMessage } from "../../lib/utils";
 import { HomeHero, HomeListings, HomeListingsSkeleton } from "./components";
 
@@ -27,6 +28,8 @@ export const Home = ({ history }: RouteComponentProps) => {
         },
         fetchPolicy: "cache-and-network"
     });
+
+    useScrollToTop();
     
     const onSearch = (value: string) => {
         // .trim() is a native JS method that removes whitespaces from the start and end of a string
