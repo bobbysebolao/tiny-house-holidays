@@ -15,6 +15,17 @@ export const Stripe = {
 
         return response;
     },
+    disconnect: async (stripeUserId: string) => {
+
+        const response = await client.oauth.deauthorize({
+            /* eslint-disable @typescript-eslint/camelcase */
+            client_id: `${process.env.S_CLIENT_ID}`,
+            stripe_user_id: stripeUserId
+            /* eslint-enable @typescript-eslint/camelcase */
+        });
+
+        return response;
+    },
     charge: async (amount: number, source: string, stripeAccount: string) => {
         /* eslint-disable @typescript-eslint/camelcase */
         const res = await client.charges.create({
