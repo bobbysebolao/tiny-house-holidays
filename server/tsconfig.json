@@ -6,5 +6,8 @@
     "outDir": "./build",
     "esModuleInterop": true,
     "strict": true
-  }
+  },
+  "exclude": [
+    "temp"
+  ]
 }

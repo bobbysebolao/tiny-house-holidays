@@ -1,4 +1,4 @@
-require("dotenv").config();
+// require("dotenv").config();
 
 // article that explains how to configure the VS Code
 //eslint plugin to lint .ts files:
@@ -7,6 +7,7 @@ require("dotenv").config();
 import express, { Application } from "express";
 import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
+import compression from "compression";
 import { ApolloServer } from "apollo-server-express";
 import { connectDatabase } from "./database";
 import { typeDefs, resolvers } from "./graphql";
@@ -16,6 +17,10 @@ const mount = async (app: Application) => {
 
   app.use(bodyParser.json({ limit: "2mb" }));
   app.use(cookieParser(process.env.SECRET));
+  app.use(compression());
+
+  app.use(express.static(`${__dirname}/client`));
+  app.get("/*", (_req, res) => res.sendFile(`${__dirname}/client/index.html`));
 
   const server = new ApolloServer({
     typeDefs,
