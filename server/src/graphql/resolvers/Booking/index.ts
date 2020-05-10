@@ -2,9 +2,40 @@ import  { IResolvers } from "apollo-server-express";
 import { Request } from "express";
 import { ObjectId } from "mongodb";
 import { Stripe } from "../../../lib/api";
-import { Database, Listing, Booking } from "../../../lib/types";
+import { Database, Listing, Booking, BookingsIndex } from "../../../lib/types";
 import { authorise } from "../../../lib/utils";
 import { CreateBookingArgs } from "./types";
+
+const resolveBookingsIndex = (bookingsIndex: BookingsIndex, checkInDate: string, checkoutDate: string): BookingsIndex => {
+    let dateCursor = new Date(checkInDate);
+    let checkOut = new Date(checkOutDate);
+    const newBookingsIndex: BookingsIndex = { ...bookingsIndex };
+
+    while (dateCursor <= checkOut) {
+
+        const y = dateCursor.getUTCFullYear();
+        const m = dateCursor.getUTCMonth();
+        const d = dateCursor.getUTCDate();
+
+        if (!newBookingsIndex[y]) {
+            newBookingsIndex[y] = {};
+        }
+
+        if (!newBookingsIndex[y][m]) {
+            newBookingsIndex[y][m] = {};
+        }
+
+        if (!newBookingsIndex[y][m][d]) {
+            newBookingsIndex[y][m][d] = true;
+        } else {
+            throw new Error("selected dates can't overlap dates that have already been booked");
+        }
+        
+        dateCursor = new Date(dateCursor.getTime() + 86400000);
+    }
+
+    return newBookingsIndex;
+};
 
 export const bookingResolvers: IResolvers = {
     Mutation: {
@@ -101,6 +132,9 @@ export const bookingResolvers: IResolvers = {
         },
         listing: (booking: Booking, _args: {}, { db }: {db: Database}): Promise<Listing | null> => {
             return db.listings.findOne({ _id: booking.listing });
+        },
+        tenant: (booking: Booking, _args: {}, { db }: { db: Database }) => {
+            return db.users.findOne({ _id: booking.tenant });
         }
     }
 };
