@@ -7,7 +7,7 @@ export const Cloudinary = {
             api_key: process.env.CLOUDINARY_KEY,
             api_secret: process.env.CLOUDINARY_SECRET,
             cloud_name: process.env.CLOUDINARY_NAME,
-            folder: "THA_Assets/"
+            folder: process.env.NODE_ENV === "production" ? "THA_Assets/" : "THA_Assets_Test/"
         });
 
         return res.secure_url;
