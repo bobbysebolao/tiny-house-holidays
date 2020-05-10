@@ -100,7 +100,7 @@ const App = () => {
           <Route exact path="/user/:id">
             <User viewer={viewer} setViewer={setViewer}/>
           </Route>
-          <Route exact>
+          <Route>
             <NotFound />
           </Route>
         </Switch>

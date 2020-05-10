@@ -20,6 +20,7 @@ export const AppHeader = ({ viewer, setViewer }: Props) => {
 
     const history = useHistory();
     const location = useLocation();
+    console.log("Here's the location: ", location);
 
     useEffect(() => {
         const { pathname } = location;

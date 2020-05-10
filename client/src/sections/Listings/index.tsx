@@ -20,14 +20,15 @@ const PAGE_LIMIT = 8;
 
 export const Listings = () => {
     const location = useLocation<MatchParams>();
-    const locationRef = useRef(location);
+    const { pathname } = location;
+    const locationRef = useRef(pathname);
     const [filter, setFilter] = useState(ListingsFilter.PRICE_LOW_TO_HIGH);
     const [page, setPage] = useState(1);
 
     const { loading, data, error } = useQuery<ListingsData, ListingsVariables>(LISTINGS, {
-        skip: locationRef.current !== location && page !== 1,
+        skip: locationRef.current !== pathname && page !== 1,
         variables: {
-            location: location.pathname,
+            location: pathname,
             filter,
             limit: PAGE_LIMIT,
             page
@@ -38,8 +39,8 @@ export const Listings = () => {
 
     useEffect(() => {
         setPage(1);
-        locationRef.current = location;
-    }, [location])
+        locationRef.current = pathname;
+    }, [pathname])
 
     if (loading) {
         return (

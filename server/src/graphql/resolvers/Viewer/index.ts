@@ -113,6 +113,8 @@ export const viewerResolvers: IResolvers = {
 
                 const viewer: User | undefined = code ? await logInViaGoogle(code, token, db, res) : await loginViaCookie(token, db, req, res);
 
+                // console.log("gambino", viewer)
+
                 if (!viewer) {
                     return { didRequest: true }
                 }
@@ -141,6 +143,7 @@ export const viewerResolvers: IResolvers = {
                 const { code } = input;
 
                 let viewer = await authorise(db, req);
+                console.log("gambino", viewer)
                 if (!viewer) {
                     throw new Error("viewer cannot be found");
                 }
