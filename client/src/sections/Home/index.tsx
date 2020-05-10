@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, RouteComponentProps } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { useQuery } from "@apollo/react-hooks";
 import { Col, Row, Layout, Typography } from "antd";
 import { LISTINGS } from "../../lib/graphql/queries";
@@ -19,7 +19,7 @@ const { Paragraph, Title } = Typography;
 const PAGE_LIMIT = 4;
 const PAGE_NUMBER = 1;
 
-export const Home = ({ history }: RouteComponentProps) => {
+export const Home = () => {
     const { loading, data } = useQuery<ListingsData, ListingsVariables>(LISTINGS, {
         variables: {
             filter: ListingsFilter.PRICE_HIGH_TO_LOW,
@@ -28,7 +28,8 @@ export const Home = ({ history }: RouteComponentProps) => {
         },
         fetchPolicy: "cache-and-network"
     });
-    
+
+    const history = useHistory();
     useScrollToTop();
     
     const onSearch = (value: string) => {

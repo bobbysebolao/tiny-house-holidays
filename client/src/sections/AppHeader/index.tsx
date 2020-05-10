@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link, withRouter, useHistory, useLocation } from "react-router-dom";
+import { Link, useHistory, useLocation } from "react-router-dom";
 import { Input, Layout } from "antd";
 import { displayErrorMessage } from "../../lib/utils";
 import { Viewer }from "../../lib/types";

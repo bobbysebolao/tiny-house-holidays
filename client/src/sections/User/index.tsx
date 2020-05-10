@@ -65,7 +65,7 @@ export const User = ({ viewer, setViewer }: Props) => {
     }
 
     const user = data ? data.user : null;
-    const viewerIsUser = viewer.id === match.params.id;
+    const viewerIsUser = viewer.id === id;
 
     const userListings = user ? user.listings : null;
     const userBookings = user ? user.bookings : null;
