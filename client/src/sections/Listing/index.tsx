@@ -7,7 +7,7 @@ import { ErrorBanner, PageSkeleton } from "../../lib/components";
 import { LISTING } from "../../lib/graphql/queries";
 import { Listing as ListingData, ListingVariables } from "../../lib/graphql/queries/Listing/__generated__/Listing";
 import { Viewer } from "../../lib/types";
-import { ListingCreateBooking, ListingCreateBookingModal, ListingBookings, ListingDetails } from "./components";
+import { ListingCreateBooking, WrappedListingCreateBookingModal as ListingCreateBookingModal, ListingBookings, ListingDetails } from "./components";
 
 interface MatchParams {
     id: string;

@@ -3,6 +3,7 @@ import { render } from "react-dom";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import ApolloClient from "apollo-boost";
 import { ApolloProvider, useMutation } from "@apollo/react-hooks";
+import { StripeProvider, Elements } from "react-stripe-elements";
 import { Affix, Spin, Layout } from "antd";
 import { AppHeader, Home, WrappedHost as Host, Listing, Listings, Login, NotFound, Stripe, User } from "./sections";
 import { AppHeaderSkeleton, ErrorBanner } from "./lib/components";
@@ -68,6 +69,7 @@ const App = () => {
   const logInErrorBannerElement = error ? <ErrorBanner description="We weren't able to verify if you were logged in. Please try again later."/> : null;
 
   return (
+    <StripeProvider apiKey={process.env.REACT_APP_S_PUBLISHABLE_KEY as string}>
     <Router>
       <Layout id="app">
         {logInErrorBannerElement}
@@ -77,7 +79,7 @@ const App = () => {
         <Switch>
           <Route exact path="/" component={Home}/>
           <Route exact path="/host" render={props => <Host {...props} viewer={viewer} />} />
-          <Route exact path="/listing/:id" render={props => <Listing {...props} viewer={viewer} />} />
+          <Route exact path="/listing/:id" render={props => <Elements><Listing {...props} viewer={viewer} /></Elements>} />
           <Route exact path="/listings/:location?" component={Listings}/>
           <Route exact path="/login" render={props => <Login {...props} setViewer={setViewer}/>}/>
           <Route exact path="/stripe" render={props => <Stripe {...props} viewer={viewer} setViewer={setViewer}/>}/>
@@ -86,6 +88,7 @@ const App = () => {
         </Switch>
       </Layout>
     </Router>
+    </StripeProvider>
   )
 }
 
