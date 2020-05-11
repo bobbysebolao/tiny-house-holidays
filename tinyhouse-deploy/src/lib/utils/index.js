@@ -15,5 +15,7 @@ exports.authorise = (db, req) => __awaiter(void 0, void 0, void 0, function* () 
         _id: req.signedCookies.viewer,
         token
     });
+    console.log("the token: ", token);
+    console.log("the viewer: ", viewer);
     return viewer;
 });
