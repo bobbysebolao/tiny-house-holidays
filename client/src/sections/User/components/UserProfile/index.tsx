@@ -20,7 +20,7 @@ const stripeAuthUrl = `https://connect.stripe.com/oauth/authorize?response_type=
 const { Paragraph, Text, Title } = Typography;
 
 export const UserProfile = ({ user, viewer, viewerIsUser, setViewer, handleUserRefetch }: Props) => {
-    const [disconnectStripe, { loading, error }] = useMutation<DisconnectStripeData>(DISCONNECT_STRIPE, {
+    const [disconnectStripe, { loading }] = useMutation<DisconnectStripeData>(DISCONNECT_STRIPE, {
         onCompleted: data => {
             if (data && data.disconnectStripe) {
                 setViewer({ ...viewer, hasWallet: data.disconnectStripe.hasWallet });
@@ -33,7 +33,7 @@ export const UserProfile = ({ user, viewer, viewerIsUser, setViewer, handleUserR
         },
         onError: () => {
             displayErrorMessage(
-                `Sorry! We weren't able to disconnect you from Stripe. Please try again later! ${error}`
+                "Sorry! We weren't able to disconnect you from Stripe. Please try again later!"
             );
         }
     });
