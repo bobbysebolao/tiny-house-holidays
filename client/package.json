@@ -27,6 +27,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "local": "REACT_APP_ENV=local react-scripts start",
     "build": "react-scripts build && mkdir -p ../tinyhouse-deploy/src/client && cp -R build/. ../tinyhouse-deploy/src/client",
     "test": "react-scripts test",
     "eject": "react-scripts eject",

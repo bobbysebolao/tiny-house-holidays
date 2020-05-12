@@ -10,7 +10,7 @@ const cookieOptions = {
     httpOnly: true,
     sameSite: true,
     signed: true,
-    secure: process.env.NODE_ENV === "development" ? false : true
+    secure: process.env.NODE_ENV === "local" ? false : true
 };
 
 const logInViaGoogle = async (code: string, token: string, db: Database, res: Response): Promise<User | undefined> => {
@@ -113,8 +113,6 @@ export const viewerResolvers: IResolvers = {
 
                 const viewer: User | undefined = code ? await logInViaGoogle(code, token, db, res) : await loginViaCookie(token, db, req, res);
 
-                // console.log("gambino", viewer)
-
                 if (!viewer) {
                     return { didRequest: true }
                 }
@@ -143,7 +141,6 @@ export const viewerResolvers: IResolvers = {
                 const { code } = input;
 
                 let viewer = await authorise(db, req);
-                console.log("gambino", viewer)
                 if (!viewer) {
                     throw new Error("viewer cannot be found");
                 }

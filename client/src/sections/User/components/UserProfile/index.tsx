@@ -15,15 +15,14 @@ interface Props {
     handleUserRefetch: () => Promise<void>;
 }
 
-const stripeAuthUrl = `https://connect.stripe.com/oauth/authorize?response_type=code&client_id=${process.env.REACT_APP_S_CLIENT_ID}&scope=read_write`;
+const stripeAuthUrl = `https://connect.stripe.com/oauth/authorize?response_type=code&client_id=${process.env.REACT_APP_S_CLIENT_ID}&scope=read_write${process.env.REACT_APP_ENV === "local" ? "&redirect_uri=http://localhost:3000/stripe" : ""}`;
+
 const { Paragraph, Text, Title } = Typography;
 
 export const UserProfile = ({ user, viewer, viewerIsUser, setViewer, handleUserRefetch }: Props) => {
     const [disconnectStripe, { loading }] = useMutation<DisconnectStripeData>(DISCONNECT_STRIPE, {
         onCompleted: data => {
-            console.log("sad path")
             if (data && data.disconnectStripe) {
-                console.log("happy path")
                 setViewer({ ...viewer, hasWallet: data.disconnectStripe.hasWallet });
                 displaySuccessNotification(
                     "You've successfully disconnected from Stripe.",

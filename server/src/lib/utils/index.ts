@@ -8,8 +8,5 @@ export const authorise = async (db: Database, req: Request): Promise<User | null
         token
     });
 
-    console.log("the token: ", token);
-    console.log("the viewer: ", viewer);
-
     return viewer;
 }
