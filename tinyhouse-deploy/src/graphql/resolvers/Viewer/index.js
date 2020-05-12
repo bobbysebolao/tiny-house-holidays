@@ -19,7 +19,7 @@ const cookieOptions = {
     httpOnly: true,
     sameSite: true,
     signed: true,
-    secure: process.env.NODE_ENV === "development" ? false : true
+    secure: process.env.NODE_ENV === "local" ? false : true
 };
 const logInViaGoogle = (code, token, db, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { user } = yield api_1.Google.logIn(code);
@@ -91,7 +91,6 @@ exports.viewerResolvers = {
                 const code = input ? input.code : null;
                 const token = crypto_1.default.randomBytes(16).toString("hex");
                 const viewer = code ? yield logInViaGoogle(code, token, db, res) : yield loginViaCookie(token, db, req, res);
-                // console.log("gambino", viewer)
                 if (!viewer) {
                     return { didRequest: true };
                 }
@@ -120,7 +119,6 @@ exports.viewerResolvers = {
             try {
                 const { code } = input;
                 let viewer = yield utils_1.authorise(db, req);
-                console.log("gambino", viewer);
                 if (!viewer) {
                     throw new Error("viewer cannot be found");
                 }
