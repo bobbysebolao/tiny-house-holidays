@@ -6,6 +6,8 @@ import { Database, Listing, Booking, BookingsIndex } from "../../../lib/types";
 import { authorise } from "../../../lib/utils";
 import { CreateBookingArgs } from "./types";
 
+const millisecondsPerDay = 86400000;
+
 const resolveBookingsIndex = (bookingsIndex: BookingsIndex, checkInDate: string, checkOutDate: string): BookingsIndex => {
     let dateCursor = new Date(checkInDate);
     let checkOut = new Date(checkOutDate);
@@ -31,7 +33,7 @@ const resolveBookingsIndex = (bookingsIndex: BookingsIndex, checkInDate: string,
             throw new Error("selected dates can't overlap dates that have already been booked");
         }
         
-        dateCursor = new Date(dateCursor.getTime() + 86400000);
+        dateCursor = new Date(dateCursor.getTime() + millisecondsPerDay);
     }
 
     return newBookingsIndex;
@@ -59,8 +61,17 @@ export const bookingResolvers: IResolvers = {
                     throw new Error("viewer can't book own listing");
                 }
 
+                const today = new Date();
                 const checkInDate = new Date(checkIn);
                 const checkOutDate = new Date(checkOut);
+
+                if (checkInDate.getTime() > today.getTime() + 180 * millisecondsPerDay) {
+                    throw new Error("check in date can't be more than 180 days from today")
+                }
+
+                if (checkOutDate.getTime() > today.getTime() + 180 * millisecondsPerDay) {
+                    throw new Error("check out date can't be more than 180 days from today")
+                }
 
                 if (checkOutDate < checkInDate) {
                     throw new Error("check out date can't be before check in date");
@@ -72,7 +83,7 @@ export const bookingResolvers: IResolvers = {
                     checkOut
                 )
 
-                const totalPrice = listing.price * ((checkOutDate.getTime() - checkInDate.getTime()) / 86400000 + 1);
+                const totalPrice = listing.price * ((checkOutDate.getTime() - checkInDate.getTime()) / millisecondsPerDay + 1);
 
                 const host = await db.users.findOne({
                     _id: listing.host
