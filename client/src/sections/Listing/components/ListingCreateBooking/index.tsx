@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Card, DatePicker, Divider, Typography } from "antd";
+import { Button, Card, DatePicker, Divider, Tooltip, Typography } from "antd";
 import moment, { Moment } from "moment";
 import { Listing as ListingData } from "../../../../lib/graphql/queries/Listing/__generated__/Listing";
 import { displayErrorMessage, formatListingPrice } from "../../../../lib/utils";
@@ -38,11 +38,10 @@ export const ListingCreateBooking = ({ viewer, host, price, bookingsIndex, check
     // Potential source of errors?
     const disabledDate = (currentDate?: Moment | null) => {
         if (currentDate) {
-            const now = moment();
-            const dateIsBeforeEndOfDay = currentDate.isBefore(now.endOf('day'));
-            const dateIsAfterOneYear = currentDate.isAfter(now.add(1, "year"));
+            const dateIsBeforeEndOfDay = currentDate.isBefore(moment().endOf('day'));
+            const dateIsAfterSixMonths = moment(currentDate).isAfter(moment().endOf("day").add(180, "days"));
 
-            return dateIsBeforeEndOfDay || dateIsAfterOneYear || dateIsBooked(currentDate);
+            return dateIsBeforeEndOfDay || dateIsAfterSixMonths || dateIsBooked(currentDate);
         } else {
             return false;
         }
@@ -105,7 +104,17 @@ export const ListingCreateBooking = ({ viewer, host, price, bookingsIndex, check
                         disabled={checkInInputDisabled}
                         disabledDate={disabledDate}
                         onChange={dateValue => setCheckInDate(dateValue)}
-                        onOpenChange={() => setCheckOutDate(null)}/>
+                        onOpenChange={() => setCheckOutDate(null)}
+                        renderExtraFooter={() => {
+                            return (
+                                <div>
+                                    <Text type="secondary" className="ant-calendar-footer-text">
+                                        You can only book a listing within 180 days from today.
+                                    </Text>
+                                    </div>
+                            );
+                        }}
+                        />
                     </div>
                     <div className="listing-booking__card-date-picker">
                         <Paragraph strong>Check Out</Paragraph>
@@ -115,7 +124,32 @@ export const ListingCreateBooking = ({ viewer, host, price, bookingsIndex, check
                         showToday={false}
                         disabled={checkOutInputDisabled}
                         disabledDate={disabledDate}
-                        onChange={dateValue => verifyAndSetCheckOutDate(dateValue)}/>
+                        onChange={dateValue => verifyAndSetCheckOutDate(dateValue)}
+                        dateRender={current => {
+                            if (
+                                moment(current).isSame(checkInDate ? checkInDate : undefined, "day")
+                            ) {
+                                return (
+                                    <Tooltip title="Check in date">
+                                        <div className="ant-calendar-date ant-calendar-date__check-in">
+                                            {current.date()}
+                                        </div>
+                                    </Tooltip>
+                                );
+                            } else {
+                                return <div className="ant-calendar-date">{current.date()}</div>;
+                            }
+                        }}
+                        renderExtraFooter={() => {
+                            return (
+                                <div>
+                                    <Text type="secondary" className="ant-calendar-footer-text">
+                                        Check out cannot be before check in.
+                                    </Text>
+                                    </div>
+                            );
+                        }}
+                        />
                     </div>
                 </div>
                 <Divider />
