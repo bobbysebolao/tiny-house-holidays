@@ -28,7 +28,7 @@ export const Listings = () => {
     const { loading, data, error } = useQuery<ListingsData, ListingsVariables>(LISTINGS, {
         skip: locationRef.current !== pathname && page !== 1,
         variables: {
-            location: pathname,
+            location: pathname.replace("/listings/", ""),
             filter,
             limit: PAGE_LIMIT,
             page
