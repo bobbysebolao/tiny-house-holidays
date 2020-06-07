@@ -106,5 +106,5 @@ export const Listings = () => {
         <Title level={3} className="listings__title">Results for "{listingsRegion}"</Title>
     ) : null;
 
-    return <Content className="listings">>{listingsRegionElement}{listingsSectionElement}</Content>
+    return <Content className="listings">{listingsRegionElement}{listingsSectionElement}</Content>
 }
