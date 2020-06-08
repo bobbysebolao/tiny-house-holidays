@@ -30,6 +30,7 @@
     "local": "REACT_APP_ENV=local react-scripts start",
     "build": "react-scripts build && mkdir -p ../tinyhouse-deploy/src/client && cp -R build/. ../tinyhouse-deploy/src/client",
     "test": "react-scripts test",
+    "cypress": "cypress open",
     "eject": "react-scripts eject",
     "codegen:schema": "npx apollo client:download-schema --endpoint=http://localhost:9000/api",
     "codegen:generate": "npx apollo client:codegen --localSchemaFile=schema.json --includes=src/**/*.ts --globalTypesFile=./src/lib/graphql/globalTypes.ts --target=typescript"
@@ -49,5 +50,8 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://localhost:9000"
+  "proxy": "http://localhost:9000",
+  "devDependencies": {
+    "cypress": "^4.8.0"
+  }
 }
