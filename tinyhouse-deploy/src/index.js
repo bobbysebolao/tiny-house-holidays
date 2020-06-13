@@ -36,7 +36,7 @@ const mount = (app) => __awaiter(void 0, void 0, void 0, function* () {
     }
     if (process.env.NODE_ENV === "local") {
         app.use(express_1.default.static(`${__dirname}/../client`));
-        app.get("/*", (_req, res) => res.sendFile(`${__dirname}/../client/index.html`));
+        app.get("/*", (_req, res) => res.sendFile(`${__dirname}/../../client/build/index.html`));
     }
     const server = new apollo_server_express_1.ApolloServer({
         typeDefs: graphql_1.typeDefs,
