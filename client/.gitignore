@@ -6,6 +6,7 @@
 .pnp.js
 
 # coverage
+.nyc_output
 /coverage/.nyc_output
 /coverage/cypress
 /coverage/final-report
