@@ -18,6 +18,6 @@ module.exports = {
   ],
   "setupFilesAfterEnv": ['<rootDir>/src/__tests__/config/setupTests.ts'],
   "testPathIgnorePatterns": ["/src/__tests__/config/setupTests.ts"],
-  "coverageDirectory": "./jest-coverage",
+  "coverageDirectory": "./coverage/jest",
   "coverageReporters": ["json"]
 }

@@ -5,9 +5,16 @@
 /.pnp
 .pnp.js
 
-# testing
-/coverage
-/jest-coverage
+# coverage
+/coverage/.nyc_output
+/coverage/cypress
+/coverage/final-report
+/coverage/jest
+/coverage/temp
+
+# cypress
+/cypress/videos
+/cypress/screenshots
 
 # production
 /build
