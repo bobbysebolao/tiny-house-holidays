@@ -1,3 +1,12 @@
+## Generate code coverage reports
+### /client
+1. `npm run test:unit` (will generate a coverage report in `/coverage/jest`)
+2. `npm run test:e2e-headless` (will generate a coverage report in `/coverage/cypress`)
+
+Then `npm run upload-coverage` to merge the coverage reports and upload them to [codecov.io](https://codecov.io/)
+
+
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts

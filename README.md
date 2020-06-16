@@ -6,3 +6,5 @@
 
 When you run these build commands, the compiled JS build code will be saved to `/tinyhouse-deploy`.
 
+## Test instructions
+TBC.

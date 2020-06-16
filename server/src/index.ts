@@ -13,6 +13,7 @@ import compression from "compression";
 import { ApolloServer } from "apollo-server-express";
 import { connectDatabase } from "./database";
 import { typeDefs, resolvers } from "./graphql";
+var path = require('path');
 
 const mount = async (app: Application) => {
   const db = await connectDatabase();
@@ -28,7 +29,7 @@ const mount = async (app: Application) => {
 
   if (process.env.NODE_ENV === "local") {
     app.use(express.static(`${__dirname}/../client`));
-    app.get("/*", (_req, res) => res.sendFile(`${__dirname}/../client/index.html`));
+    app.get("/*", (_req, res) => res.status(200).sendFile(path.resolve(__dirname+'/../../client/build/index.html')));
   }
 
   const server = new ApolloServer({
